@@ -146,9 +146,10 @@ clusterExport(cl, c("power_plackett_luce",
 
 # Run the power analysis in parallel
 
+n_sims <- 1000
 power_analysis <- parLapply(
   cl, 
-  1:1000, 
+  1:n_sims, 
   function(x) power_plackett_luce(
     min_effect_size = 0.03, # If zero, checks only for stat. significance
     n_items = 5, 
@@ -168,7 +169,7 @@ power_analysis <- parLapply(
 stopCluster(cl)
 
 # Aggregate and visualize the results
-formatted_results <- as.data.frame(table(unlist(power_analysis)) / 1000)
+formatted_results <- as.data.frame(table(unlist(power_analysis)) / n_sims)
 names(formatted_results) <- c("EffectsNotInCI", "Frequency")
 
 power_substantial_effects <- sum(formatted_results$Frequency[as.numeric(as.character(formatted_results$EffectsNotInCI)) >= 1])
