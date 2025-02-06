@@ -12,14 +12,14 @@ generate_permutations <- function(n_items)
 
 # Calculate sampling weights for rankings based on bias factors
 sampling_weights <- function(permutations_set, 
-                             biased_items = c(1), 
-                             bias_factors = c(1)
-) 
+                             biased_items = c(1), # Positions of items to be sampled with bias (default: first item) 
+                             bias_factors = c(1)  # By default, no weighted sampling 
+                            ) 
 {
   
   if (length(biased_items) != length(bias_factors)) {
-    stop("The number of biased items does not match the number of bias factors. 
-         Please provide a bias factor for each item you want to bias.")
+    stop("The number of items to be sampled with bias does not match the number of weights. 
+         Please provide a weight for each item you want to bias.")
   }
   
   # Initialize weights (uniform sampling by default)
